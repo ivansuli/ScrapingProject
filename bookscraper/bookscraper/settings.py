@@ -12,26 +12,12 @@ BOT_NAME = "bookscraper"
 SPIDER_MODULES = ["bookscraper.spiders"]
 NEWSPIDER_MODULE = "bookscraper.spiders"
 
-SCRAPEOPS_API_KEY = 'c7aa2ec1-8d85-4abe-ad19-be79f9c90891' 
-SCRAPEOPS_FAKE_USER_AGENT_ENDPOINT = 'https://headers.scrapeops.io/v1/user-agents'
-SCRAPEOPS_FAKE_USER_AGENT_ENABLED = True
-SCRAPEOPS_NUM_RESULTS = 50
-
-ROTATING_PROXY_LIST = [
-    "102.64.116.1:4145",
-    "103.134.180.185:4153",
-    ":201.148.125.2034145",
-    "203.24.109.130:80",
-    "137.184.34.178:12345",
-    "168.205.217.37:4145",
-
-]
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "bookscraper (+http://www.yourdomain.com)"
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = False
+ROBOTSTXT_OBEY = True
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -58,18 +44,14 @@ ROBOTSTXT_OBEY = False
 
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-#SPIDER_MIDDLEWARES = {
-#    "bookscraper.middlewares.BookscraperSpiderMiddleware": 543,
-#}
+SPIDER_MIDDLEWARES = {
+    "bookscraper.middlewares.BookscraperSpiderMiddleware": 543,
+}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-    #"bookscraper.middlewares.BookscraperDownloaderMiddleware": 543,
-    "bookscraper.middlewares.ScrapeOpsFakeUserAgentMiddleware": 400,
-    #"bookscraper.middlewares.ScrapeOpsFakeBrowserHeaderAgentMiddleware": 500,
-    #"rotating_proxies_middlewares.RotatingProxyMiddleware": 610,
-    #"rotating_proxies_middlewares.BanDetectionMiddleware": 620,
+    "bookscraper.middlewares.BookscraperDownloaderMiddleware": 543,
 }
 
 # Enable or disable extensions
@@ -80,10 +62,9 @@ DOWNLOADER_MIDDLEWARES = {
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-ITEM_PIPELINES = {
-    "bookscraper.pipelines.BookscraperPipeline": 300,
-    "bookscraper.pipelines.SaveToMySQLPipeline": 400,
-}
+#ITEM_PIPELINES = {
+#    "bookscraper.pipelines.BookscraperPipeline": 300,
+#}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
