@@ -63,10 +63,11 @@ DOWNLOADER_MIDDLEWARES = {
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    "bookscraper.pipelines.BookscraperPipeline": 300,
+    #"bookscraper.pipelines.BookscraperPipeline": 300,
+    #'scrapy.pipelines.images.ImagesPipeline': 1,
     "bookscraper.pipelines.CustomImagePipeline": 1,
 }
-IMAGES_STORE = "C:\\Users\\ivan0\\OneDrive\\Desktop\\ScrapingProject\\bookscraper\\bookscraper\\images"
+IMAGES_STORE = "images"
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html

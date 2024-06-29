@@ -25,6 +25,7 @@ class BooksSpider(scrapy.Spider):
 
     def parse_book_page(self, response):
         book_item = BookItem()
+        img_list = []
         book_item["url"] = response.url,
         book_item["title"] = response.css("div.columns h1.page-title span::text").get(),
         book_item["price"] =  response.css("div.box-tocart span.price::text").get(),
@@ -33,7 +34,9 @@ class BooksSpider(scrapy.Spider):
         book_item["introduceder"] = response.css("div.columns p.book-attributes.book-attributes--introduced span::text").get(),
         book_item["description"] = response.css("div.columns div.product-info-main div.value p").get(),
         book_item["image"] = response.css("div.columns section.gallery-container ul li img::attr(src)").get(),
-        book_item["clean_image_urls"] = response.css("div.gallery-container__gallery ul.gallery li a img::attr(src)").getall(),
+        for img in response.css("div.gallery-container__gallery ul.gallery li a img::attr(src)").getall():
+            img_list.append(response.urljoin(img))
+        book_item["clean_image_urls"] = img_list
         yield book_item
 
 

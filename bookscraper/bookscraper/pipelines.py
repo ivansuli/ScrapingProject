@@ -9,7 +9,6 @@ from itemadapter import ItemAdapter
 from scrapy.pipelines.images import ImagesPipeline
 from scrapy import Request
 from PIL import Image
-from io import BytesIO
 import os
 
 
@@ -17,16 +16,24 @@ import os
 
 class BookscraperPipeline:
     def process_item(self, item, spider):
-        return item
+        adapter = ItemAdapter(item)
+        field_names = adapter.field_names()
+        for field_name in field_names:
+            if field_name != "clean_image_url":
+                return adapter[field_name]
 
 class CustomImagePipeline(ImagesPipeline):
     def get_media_requests(self, item, info):
         for image_url in item["clean_image_urls"]:
+            print(f'Requesting image: {image_url}')  # Imprime las URLs de las imágenes solicitadas
             yield Request(image_url)
 
     def file_path(self, request, response=None, info=None):
-        image_guid = request.url.split('/')[-1]
-        return f'full/{image_guid}'
+        image_split = request.url.split('/')[-1]
+        image_guid = image_split.split("?")[0] 
+        path = f'full/{image_guid}'
+        print(f'Saving image to: {path}')  # Imprime la ruta de guardado
+        return path
 
     def item_completed(self, results, item, info):
         for ok, x in results:
@@ -37,12 +44,9 @@ class CustomImagePipeline(ImagesPipeline):
 
     def process_image(self, path):
         image_path = os.path.join(self.store.basedir, path)
-        image = Image.open(image_path)
-        
-        # Realiza algún procesamiento con Pillow, por ejemplo, redimensionar
-        image = image.resize((128, 128))
-
-        # Guarda la imagen procesada
-        image.save(image_path)
+        print(f'Processing image: {image_path}')  # Imprime la ruta de la imagen a procesar
+        with Image.open(image_path) as image:
+            image = image.resize((700, 700))
+            image.save(image_path)
 
     
