@@ -32,5 +32,10 @@ class BooksSpider(scrapy.Spider):
         book_item["illustrator"] = response.css("div.columns p.book-attributes.book-attributes--illustrator span::text").get(),
         book_item["introduceder"] = response.css("div.columns p.book-attributes.book-attributes--introduced span::text").get(),
         book_item["description"] = response.css("div.columns div.product-info-main div.value p").get(),
-        #book_item["image"] = response.css("div.columns section.gallery-container ul li img::attr(src)").get(),
+        book_item["image"] = response.css("div.columns section.gallery-container ul li img::attr(src)").get(),
+        book_item["clean_image_urls"] = response.css("div.gallery-container__gallery ul.gallery li a img::attr(src)").getall(),
         yield book_item
+
+
+
+    
