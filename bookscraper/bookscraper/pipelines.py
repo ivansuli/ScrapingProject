@@ -10,6 +10,7 @@ from scrapy.pipelines.images import ImagesPipeline
 from scrapy import Request
 from PIL import Image
 import os
+import re
 
 
 
@@ -17,13 +18,17 @@ import os
 class BookscraperPipeline:
     def process_item(self, item, spider):
         adapter = ItemAdapter(item)
-        field_names = adapter.field_names()
-        for field_name in field_names:
-            if field_name != "clean_image_url":
-                return adapter[field_name]
+        descrip = adapter.get("description")
+        text = descrip[0]
+        clean_text = re.sub(r'<(\/?p|\/?em|\/?i|\/?span|\/?a)( [^>]*>|>)', '', text)
+        adapter["description"] = clean_text
+        return item
 
 class CustomImagePipeline(ImagesPipeline):
     def get_media_requests(self, item, info):
+        """adapter = ItemAdapter(item)
+        image = adapter["image"]
+        item["clean_image_urls"].append(image[0])"""
         for image_url in item["clean_image_urls"]:
             print(f'Requesting image: {image_url}')  # Imprime las URLs de las imágenes solicitadas
             yield Request(image_url)

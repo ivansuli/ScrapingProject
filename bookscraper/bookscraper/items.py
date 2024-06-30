@@ -19,5 +19,4 @@ class BookItem(scrapy.Item):
     illustrator = scrapy.Field()
     introduceder = scrapy.Field()
     description = scrapy.Field()
-    image = scrapy.Field()
     clean_image_urls = scrapy.Field()

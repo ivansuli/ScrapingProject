@@ -63,9 +63,9 @@ DOWNLOADER_MIDDLEWARES = {
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    #"bookscraper.pipelines.BookscraperPipeline": 300,
+    "bookscraper.pipelines.BookscraperPipeline": 300,
     #'scrapy.pipelines.images.ImagesPipeline': 1,
-    "bookscraper.pipelines.CustomImagePipeline": 1,
+    "bookscraper.pipelines.CustomImagePipeline": 100,
 }
 IMAGES_STORE = "images"
 
