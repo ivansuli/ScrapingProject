@@ -8,8 +8,8 @@ class BooksSpider(scrapy.Spider):
 
     custom_settings = {
         "FEEDS" : {
-        "bookdata.json" : {"format": "json" ,"overwrite": True},
-        "bookscraper.csv" : {"format": "csv" ,"overwrite": True},
+        "FictionBookData.json" : {"format": "json" ,"overwrite": True},
+        "FictionBookData.csv" : {"format": "csv" ,"overwrite": True},
         }
     }
 
@@ -33,7 +33,6 @@ class BooksSpider(scrapy.Spider):
         book_item["illustrator"] = response.css("div.columns p.book-attributes.book-attributes--illustrator span::text").get(),
         book_item["introduceder"] = response.css("div.columns p.book-attributes.book-attributes--introduced span::text").get(),
         book_item["description"] = response.css("div.columns div.product-info-main div.value p").get(),
-        #book_item["image"] = response.css("div.columns section.gallery-container ul li img::attr(src)").get(),
         for img in response.css("div.gallery-container__gallery ul.gallery li a img::attr(src)").getall():
             img_list.append(response.urljoin(img))
         book_item["clean_image_urls"] = img_list

@@ -26,9 +26,6 @@ class BookscraperPipeline:
 
 class CustomImagePipeline(ImagesPipeline):
     def get_media_requests(self, item, info):
-        """adapter = ItemAdapter(item)
-        image = adapter["image"]
-        item["clean_image_urls"].append(image[0])"""
         for image_url in item["clean_image_urls"]:
             print(f'Requesting image: {image_url}')  # Imprime las URLs de las imágenes solicitadas
             yield Request(image_url)
@@ -36,7 +33,7 @@ class CustomImagePipeline(ImagesPipeline):
     def file_path(self, request, response=None, info=None):
         image_split = request.url.split('/')[-1]
         image_guid = image_split.split("?")[0] 
-        path = f'full/{image_guid}'
+        path = f'Non_Fiction/{image_guid}'
         print(f'Saving image to: {path}')  # Imprime la ruta de guardado
         return path
 
@@ -53,5 +50,7 @@ class CustomImagePipeline(ImagesPipeline):
         with Image.open(image_path) as image:
             image = image.resize((700, 700))
             image.save(image_path)
+
+
 
     
